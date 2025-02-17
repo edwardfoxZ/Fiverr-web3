@@ -1,12 +1,15 @@
 import React from "react";
 import { IoMdSearch } from "react-icons/io";
 
-export const SearchBar = ({addClass}) => {
+export const SearchBar = ({ addClassBu, addClassInput, iconSize }) => {
   return (
     <div className="relative">
-      <input type="text" className="w-[35vh] h-9 border border-gray-400 rounded-lg p-3" />
-      <button className={`absolute right-0 p-2 ${addClass}`}>
-        <IoMdSearch size={20} color="white" />
+      <input
+        type="text"
+        className={`border border-gray-400 rounded-lg p-3 ${addClassInput}`}
+      />
+      <button className={`absolute p-2 ${addClassBu}`}>
+        <IoMdSearch size={iconSize} color="white" />
       </button>
     </div>
   );

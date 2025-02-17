@@ -1,8 +1,35 @@
+.hover-gardient-card {
+  background: rgb(147, 255, 173);
+  background: radial-gradient(
+    circle,
+    rgba(147, 255, 173, 1) 0%,
+    rgba(141, 255, 169, 1) 4%,
+    rgba(159, 255, 183, 1) 12%,
+    rgba(189, 255, 206, 1) 28%,
+    rgba(255, 255, 255, 1) 51%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
 .bg-preview-main {
-  width: 100vh;
-  height: 100vh;
-  background: url("./ui/previews/fiverr-res.cloudinary.com-....-xl-x1.jpg");
+  width: 100vw; /* Full width */
+  height: 550px; /* Fixed height */
+  background: url("./ui/previews/fiverr-res.cloudinary.com-....-xl-x1.jpg")
+    no-repeat center center;
   background-size: contain;
-  background-repeat: no-repeat;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .bg-preview-main {
+    height: 650px;
+    background-size: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .bg-preview-main {
+    height: 550px;
+    background-size: cover;
+  }
 }
