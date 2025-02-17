@@ -1,16 +1,3 @@
-.hover-gardient-card {
-  background: rgb(147, 255, 173);
-  background: radial-gradient(
-    circle,
-    rgba(147, 255, 173, 1) 0%,
-    rgba(141, 255, 169, 1) 4%,
-    rgba(159, 255, 183, 1) 12%,
-    rgba(189, 255, 206, 1) 28%,
-    rgba(255, 255, 255, 1) 51%,
-    rgba(255, 255, 255, 1) 100%
-  );
-}
-
 .bg-preview-main {
   width: 100vw; /* Full width */
   height: 550px; /* Fixed height */

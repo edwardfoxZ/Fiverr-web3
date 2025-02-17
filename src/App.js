@@ -6,10 +6,11 @@ import arrowAnimate from "./ui/icons/Public/arrow-down-1-svgrepo-com.svg";
 import { Nav } from "./components/Nav";
 import { SearchBar } from "./components/utils/SearchBar";
 import { ScaleCards } from "./components/ScaleCards";
+import { PopularServices } from "./components/PopularServices";
 
 function App() {
   return (
-    <div className="App w-full h-full">
+    <div className="App w-full h-[150vh]">
       <Nav />
       <div className="w-full pt-10 flex flex-col sm:flex-row items-center overflow-hidden">
         <div className="bg-preview-main flex items-center justify-center mx-auto p-8 sm:p-16 lg:p-32 max-w-full sm:max-w-[80%]">
@@ -37,6 +38,13 @@ function App() {
         </div>
       </div>
       <ScaleCards />
+
+      <div className="Popular-services w-80">
+        <h1 className="text-5xl text-gray-600 font-semibold">
+          Popular services
+        </h1>
+        <PopularServices />
+      </div>
     </div>
   );
 }
