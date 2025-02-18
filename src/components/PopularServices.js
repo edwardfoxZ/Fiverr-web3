@@ -130,6 +130,7 @@ export const PopularServices = () => {
                 {card.title}
               </h1>
               <img
+                draggable={false}
                 src={card.img}
                 alt={card.title}
                 className="w-full h-32 object-cover mt-3 rounded-md"

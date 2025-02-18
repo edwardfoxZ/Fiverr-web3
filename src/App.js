@@ -15,7 +15,7 @@ function App() {
     const arrow = gsap.timeline({
       scrollTrigger: {
         trigger: ".arrow-animate",
-        start: "top 1",
+        start: "top 10%",
         end: "top 30%",
         scrub: 1,
       },
@@ -108,7 +108,7 @@ function App() {
         <div className="relative flex flex-col items-center p-8 mt-10">
           <PopularServices />
         </div>
-        <div className="Premimum">
+        <div className="Premimum w-full h-[105vh]">
           <Premimum />
         </div>
       </div>
