@@ -7,11 +7,16 @@ import { IoIosArrowDown } from "react-icons/io";
 
 export const Nav = () => {
   return (
-    <div className="flex p-5 justify-center border-b border-gray-200">
+    <div className="w-full bg-white fixed top-0 z-30 flex p-5 justify-center border-b border-gray-200">
       <div className="w-full flex flex-row py-3 items-center">
         <div className="flex flex-row gap-5 mr-auto pl-[13%] items-center">
           <div className="w-auto h-5">
-            <img draggable={false} className="w-full h-full" src={FiverrIcon} />
+            <img
+              draggable={false}
+              className="w-full h-full"
+              alt="Fiverr-icon"
+              src={FiverrIcon}
+            />
           </div>
           {/* <SearchBar
             iconSize={20}

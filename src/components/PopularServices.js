@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useState } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const Cards = [
   {
@@ -80,40 +79,91 @@ const Cards = [
 ];
 
 export const PopularServices = () => {
-  const sliderRef = useRef();
+  const sliderRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const itemWidth = 1100; //adjusted
 
-  useEffect(() => {
-    gsap.to(sliderRef.current, {
-      x: "-50%",
-      ease: "power1.inOut",
-      scrollTrigger: {
-        trigger: sliderRef,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1,
-      },
-    });
-  }, []);
+  const slideTo = (index) => {
+    const slider = sliderRef.current;
+    const maxIndex = Math.floor((Cards.length * itemWidth) / itemWidth) - 1;
+
+    if (index < 0) {
+      index = 0;
+    } else if (index > maxIndex) {
+      index = maxIndex;
+    }
+
+    gsap.fromTo(
+      slider,
+      { x: -currentIndex * itemWidth },
+      { x: -index * itemWidth, duration: 0.5, ease: "power2.inOut" }
+    );
+
+    setCurrentIndex(index);
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      slideTo(currentIndex - 1);
+    }
+  };
+
+  const handleNext = () => {
+    if (currentIndex < Cards.length - 1) {
+      slideTo(currentIndex + 1);
+    }
+  };
+
+  console.log("currentIndex: ", currentIndex, "cards: ", Cards.length - 1);
+
   return (
-    <div className="flex flex-wrap justify-center gap-6 p-8">
-      <div ref={sliderRef} className="flex space-x-6 p-6 w-max">
-        {Cards.map((card) => (
-          <div
-            key={card.id}
-            className="w-48 flex flex-col items-start p-5 rounded-lg shadow-lg text-white cursor-pointer hover:opacity-90 transition-opacity"
-            style={{ backgroundColor: card.color }}
-          >
-            <h1 className="text-lg font-semibold text-start h-14">
-              {card.title}
-            </h1>
-            <img
-              src={card.img}
-              alt={card.title}
-              className="w-full h-32 object-cover mt-3 rounded-md"
-            />
-          </div>
-        ))}
+    <>
+      <div className="flex overflow-hidden w-full">
+        <div ref={sliderRef} className="flex space-x-6">
+          {Cards.map((card) => (
+            <div
+              key={card.id}
+              className="w-48 flex-shrink-0 flex flex-col items-start p-5 rounded-lg shadow-lg text-white cursor-pointer hover:opacity-90 transition-opacity"
+              style={{ backgroundColor: card.color }}
+            >
+              <h1 className="text-lg font-semibold text-start h-14">
+                {card.title}
+              </h1>
+              <img
+                src={card.img}
+                alt={card.title}
+                className="w-full h-32 object-cover mt-3 rounded-md"
+              />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+      <div
+        className={`absolute top-1/2 transform -translate-y-1/2 left-0 ${
+          currentIndex === 0 ? "hidden" : ""
+        }`}
+      >
+        <button
+          disabled={currentIndex === 0}
+          onClick={handlePrev}
+          className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
+        >
+          <IoIosArrowBack />
+        </button>
+      </div>
+      <div
+        className={`absolute top-1/2 transform -translate-y-1/2 right-0 ${
+          1 <= currentIndex ? "hidden" : ""
+        }`}
+      >
+        <button
+          disabled={1 <= currentIndex}
+          onClick={handleNext}
+          className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
+        >
+          <IoIosArrowForward />
+        </button>
+      </div>
+    </>
   );
 };

@@ -7,16 +7,24 @@
   overflow: hidden;
 }
 
+@media (max-width: 1920px) {
+  .bg-preview-main {
+    height: 650px;
+    background-size: contain;
+    border-radius: 30px;
+  }
+}
+
 @media (max-width: 768px) {
   .bg-preview-main {
     height: 650px;
-    background-size: cover;
+    background-size: contain;
   }
 }
 
 @media (max-width: 480px) {
   .bg-preview-main {
     height: 550px;
-    background-size: cover;
+    background-size: contain;
   }
 }

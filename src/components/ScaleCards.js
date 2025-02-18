@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaCode,
   FaBrush,
@@ -10,8 +10,31 @@ import {
   FaBusinessTime,
   FaRegAddressCard,
 } from "react-icons/fa6";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
 
 export const ScaleCards = () => {
+  useEffect(() => {
+    const scaleCard = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".ScaleCards",
+        start: "top bottom",
+        end: "top 30%",
+        scrub: 1,
+        once: true,
+      },
+    });
+
+    scaleCard.fromTo(
+      ".ScaleCards",
+      {
+        x: "-300",
+      },
+      { x: 0, duration: 1, ease: "power2.inOut" }
+    );
+  }, []);
+
   const Cards = [
     {
       id: 0,
@@ -31,7 +54,7 @@ export const ScaleCards = () => {
     {
       id: 3,
       icon: <FaPenFancy size={23} />,
-      title: "Writting & Translation",
+      title: "Writing & Translation",
     },
     {
       id: 4,
@@ -60,7 +83,7 @@ export const ScaleCards = () => {
     },
   ];
   return (
-    <div className="ScaleCards w-full flex flex-row items-center justify-center gap-8 md:gap-8 mt-5">
+    <>
       {Cards.map((card) => {
         return (
           <div
@@ -74,6 +97,6 @@ export const ScaleCards = () => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
