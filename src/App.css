@@ -28,3 +28,9 @@
     background-size: contain;
   }
 }
+
+.Join-bg-left {
+  width: 50%;
+  background: url("https://fiverr-res.cloudinary.com/npm-assets/layout-service/standard.0638957.png");
+  background-size: cover;
+}

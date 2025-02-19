@@ -6,11 +6,27 @@ import { ScaleCards } from "./components/ScaleCards";
 import { PopularServices } from "./components/PopularServices";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Premimum } from "./components/Premimum";
+import { Join } from "./components/Join";
 gsap.registerPlugin(ScrollTrigger);
 
+/**
+ * Main application component.
+ *
+ * This component sets up various animations and scroll triggers using GSAP and ScrollTrigger.
+ * It also manages the state for the join button and search navigation visibility.
+ *
+ * @component
+ * @example
+ * return (
+ *   <App />
+ * )
+ */
 function App() {
+  const [isJoinActive, setJoin] = useState(false);
+  const [isSearchNavActive, setSearchNav] = useState(false);
+
   useEffect(() => {
     const arrow = gsap.timeline({
       scrollTrigger: {
@@ -65,16 +81,43 @@ function App() {
       }
     );
 
+    // SearchBar effect
+    const searchNavTrigger = ScrollTrigger.create({
+      trigger: "#Popular",
+      start: "top 10%",
+      end: "bottom 50%",
+      onEnter: () => setSearchNav(true),
+      onLeave: () => setSearchNav(false),
+      onEnterBack: () => setSearchNav(true),
+      onLeaveBack: () => setSearchNav(false),
+    });
+
     return () => {
       arrow.kill();
       title.kill();
+      searchNavTrigger.kill();
     };
   }, []);
 
+  // Join active
+  useEffect(() => {
+    const body = document.body;
+
+    if (isJoinActive) {
+      body.style.overflow = "hidden";
+    } else {
+      body.style.overflow = "auto";
+    }
+
+    return () => {
+      body.style.overflow = "auto";
+    };
+  }, [isJoinActive]);
+
   return (
     <div className="App w-full h-[150vh]">
-      <Nav />
-      <div className="w-[90vw] pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
+      <Nav setJoin={setJoin} isSearchNavActive={isSearchNavActive} />
+      <section className="w-[90vw] pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
         <div className="bg-preview-main flex items-center justify-center mx-auto mt-16 p-8 sm:p-16 lg:p-32 max-w-full sm:max-w-[80%]">
           <header className="w-full h-full flex flex-col items-center gap-8 sm:gap-12 lg:gap-16 mt-16 sm:mt-16">
             <p className="w-full sm:max-w-3xl text-center text-white font-semibold text-4xl sm:text-5xl lg:text-6xl">
@@ -97,11 +140,14 @@ function App() {
             alt="arrow"
           />
         </div>
-      </div>
-      <div className="ScaleCards w-full flex flex-row items-center justify-center gap-8 md:gap-8 mt-5">
+      </section>
+      <section className="ScaleCards w-full flex flex-row items-center justify-center gap-8 md:gap-8 mt-5">
         <ScaleCards />
-      </div>
-      <div className="Popular-services w-[75vw] sm:max-w-screen-2xl flex flex-col mx-auto">
+      </section>
+      <section
+        id="Popular"
+        className="Popular-services w-[75vw] sm:max-w-screen-2xl flex flex-col mx-auto"
+      >
         <h1 className="text-5xl text-gray-600 font-semibold p-5 mt-16">
           Popular services
         </h1>
@@ -111,7 +157,9 @@ function App() {
         <div className="Premimum w-full h-[105vh]">
           <Premimum />
         </div>
-      </div>
+      </section>
+
+      {isJoinActive && <Join setJoin={setJoin} />}
     </div>
   );
 }
