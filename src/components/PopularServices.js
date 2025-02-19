@@ -114,8 +114,6 @@ export const PopularServices = () => {
     }
   };
 
-  console.log("currentIndex: ", currentIndex, "cards: ", Cards.length - 1);
-
   return (
     <>
       <div className="flex overflow-hidden w-full">

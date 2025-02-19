@@ -51,7 +51,6 @@ export const Premimum = () => {
           end: "center 100%",
           scrub: true,
           once: true,
-          markers: true,
         },
       }
     );
