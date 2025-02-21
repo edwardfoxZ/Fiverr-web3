@@ -25,6 +25,7 @@ const FETCH_USER_DATA = gql`
 
 const useWeb3 = () => {
   const [userAddress, setUserAddress] = useState(null);
+  const [isJoinActive, setJoin] = useState(false);
   const [error, setError] = useState(null);
   const [saveUser] = useMutation(SAVE_USER);
   const {
@@ -103,6 +104,8 @@ const useWeb3 = () => {
     initWeb3,
     logoutWeb3,
     error,
+    setJoin,
+    isJoinActive,
   };
 };
 

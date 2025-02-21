@@ -81,11 +81,18 @@ const Cards = [
 export const PopularServices = () => {
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemWidth = 1100; //adjusted
+  const itemWidthFixed = 1100; //adjusted
+
+  let itemWidthDestop;
+  if (window.innerWidth >= 1920) {
+    itemWidthDestop = itemWidthFixed + 100;
+  }
+  // if(window.innerWidth >= )
 
   const slideTo = (index) => {
     const slider = sliderRef.current;
-    const maxIndex = Math.floor((Cards.length * itemWidth) / itemWidth) - 1;
+    const maxIndex =
+      Math.floor((Cards.length * itemWidthDestop) / itemWidthDestop) - 1;
 
     if (index < 0) {
       index = 0;
@@ -95,8 +102,8 @@ export const PopularServices = () => {
 
     gsap.fromTo(
       slider,
-      { x: -currentIndex * itemWidth },
-      { x: -index * itemWidth, duration: 0.5, ease: "power2.inOut" }
+      { x: -currentIndex * itemWidthDestop },
+      { x: -index * itemWidthDestop, duration: 0.5, ease: "power2.inOut" }
     );
 
     setCurrentIndex(index);

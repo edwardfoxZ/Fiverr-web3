@@ -1,0 +1,162 @@
+[
+  {
+    "title": "Software Engineer",
+    "company": "Tech Solutions Inc.",
+    "details": "Develop and maintain software applications.",
+    "time": "Full-time",
+    "price": "$80,000/year",
+    "date": "Feb 20, 2025"
+  },
+  {
+    "title": "Marketing Manager",
+    "company": "Marketing Pros LLC",
+    "details": "Plan and execute marketing campaigns.",
+    "time": "Full-time",
+    "price": "$70,000/year",
+    "date": "Feb 18, 2025"
+  },
+  {
+    "title": "Graphic Designer",
+    "company": "Creative Studio",
+    "details": "Create visual content for various media.",
+    "time": "Part-time",
+    "price": "$25/hour",
+    "date": "Feb 15, 2025"
+  },
+  {
+    "title": "Sales Associate",
+    "company": "Retail Experts",
+    "details": "Assist customers and close sales.",
+    "time": "Full-time",
+    "price": "$40,000/year",
+    "date": "Feb 12, 2025"
+  },
+  {
+    "title": "Data Analyst",
+    "company": "Data Insights Co.",
+    "details": "Analyze and interpret data for business decisions.",
+    "time": "Full-time",
+    "price": "$60,000/year",
+    "date": "Feb 10, 2025"
+  },
+  {
+    "title": "HR Specialist",
+    "company": "HR Solutions Ltd.",
+    "details": "Manage employee relations and recruitment.",
+    "time": "Full-time",
+    "price": "$55,000/year",
+    "date": "Feb 8, 2025"
+  },
+  {
+    "title": "Project Manager",
+    "company": "Project Masters",
+    "details": "Oversee and coordinate projects.",
+    "time": "Full-time",
+    "price": "$85,000/year",
+    "date": "Feb 5, 2025"
+  },
+  {
+    "title": "Content Writer",
+    "company": "Content Creators Inc.",
+    "details": "Write and edit content for various platforms.",
+    "time": "Part-time",
+    "price": "$30/hour",
+    "date": "Feb 3, 2025"
+  },
+  {
+    "title": "UX/UI Designer",
+    "company": "Design Innovators",
+    "details": "Design user interfaces and experiences.",
+    "time": "Full-time",
+    "price": "$75,000/year",
+    "date": "Feb 1, 2025"
+  },
+  {
+    "title": "Customer Service Rep",
+    "company": "Support Services",
+    "details": "Provide support and assistance to customers.",
+    "time": "Full-time",
+    "price": "$35,000/year",
+    "date": "Jan 30, 2025"
+  },
+  {
+    "title": "Business Analyst",
+    "company": "Business Insights LLC",
+    "details": "Analyze business processes and systems.",
+    "time": "Full-time",
+    "price": "$65,000/year",
+    "date": "Jan 28, 2025"
+  },
+  {
+    "title": "Web Developer",
+    "company": "Web Solutions Co.",
+    "details": "Develop and maintain websites.",
+    "time": "Full-time",
+    "price": "$70,000/year",
+    "date": "Jan 25, 2025"
+  },
+  {
+    "title": "SEO Specialist",
+    "company": "Search Masters",
+    "details": "Optimize websites for search engines.",
+    "time": "Part-time",
+    "price": "$28/hour",
+    "date": "Jan 23, 2025"
+  },
+  {
+    "title": "Operations Manager",
+    "company": "Operations Experts",
+    "details": "Oversee daily operations and processes.",
+    "time": "Full-time",
+    "price": "$80,000/year",
+    "date": "Jan 20, 2025"
+  },
+  {
+    "title": "Accountant",
+    "company": "Finance Gurus",
+    "details": "Manage financial records and transactions.",
+    "time": "Full-time",
+    "price": "$60,000/year",
+    "date": "Jan 18, 2025"
+  },
+  {
+    "title": "Social Media Manager",
+    "company": "Social Connect",
+    "details": "Manage and create content for social media.",
+    "time": "Full-time",
+    "price": "$55,000/year",
+    "date": "Jan 15, 2025"
+  },
+  {
+    "title": "IT Support Specialist",
+    "company": "Tech Support Inc.",
+    "details": "Provide technical support to users.",
+    "time": "Full-time",
+    "price": "$50,000/year",
+    "date": "Jan 10, 2025"
+  },
+  {
+    "title": "Financial Analyst",
+    "company": "Financial Insights Co.",
+    "details": "Analyze financial data and trends.",
+    "time": "Full-time",
+    "price": "$65,000/year",
+    "date": "Jan 8, 2025"
+  },
+  {
+    "title": "Legal Assistant",
+    "company": "Legal Support Ltd.",
+    "details": "Support legal professionals with various tasks.",
+    "time": "Full-time",
+    "price": "$45,000/year",
+    "date": "Jan 5, 2025"
+  },
+  {
+    "title": "Product Manager",
+    "company": "Product Masters",
+    "details": "Manage product development and lifecycle.",
+    "time": "Full-time",
+    "price": "$90,000/year",
+    "date": "Jan 3, 2025"
+  }
+]

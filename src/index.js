@@ -2,11 +2,12 @@ import React, { cache } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { Main } from "./pages/Main";
-import FindJobs from "./pages/FindJobs";
+import { FindJobs } from "./pages/FindJobs";
+import { JobDetails } from "./pages/Jobdetails";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -19,11 +20,14 @@ root.render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Main />}>
-            <Route path="/app" element={<App />} />
-            <Route path="/explore/find-jobs" element={<FindJobs />} />
-            <Route path="/explore/create-jobs" />
+          <Route path="/" element={<App />}>
+            <Route path="/" element={<Main />} />
           </Route>
+          <Route path="/find-jobs" element={<Navigate to="/find-jobs/1" />} />
+          <Route path="/find-jobs/:page" element={<FindJobs />}>
+            <Route path="job/:id" element={<JobDetails />} />
+          </Route>
+          <Route path="/create-jobs" element={<p>create jobs</p>} />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>

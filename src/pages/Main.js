@@ -1,15 +1,16 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import arrowAnimate from "../ui/icons/Public/arrow-down-1-svgrepo-com.svg";
 import { Nav } from "../components/Nav";
 import { SearchBar } from "../components/utils/SearchBar";
 import { ScaleCards } from "../components/ScaleCards";
 import { PopularServices } from "../components/PopularServices";
 import { Premimum } from "../components/Premimum";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import useWeb3 from "../hooks/useWeb3";
 import { Join } from "../components/Join";
+import { handleJoinButtonClick } from "../components/utils/JoinButton";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Main = () => {
@@ -20,9 +21,10 @@ export const Main = () => {
     userDataError,
     logoutWeb3,
     initWeb3,
+    isJoinActive,
+    setJoin,
   } = useWeb3();
   const [isSearchNavActive, setSearchNav] = useState(false);
-  const [isJoinActive, setJoin] = useState(false);
 
   const handleOutsideClick = (e) => {
     if (e.target.classList.contains("Join")) {
@@ -30,9 +32,11 @@ export const Main = () => {
     }
   };
 
-  const handleJoinButtonClick = () => {
-    setJoin(true);
-  };
+  // useEffect(async () => {
+  //   if (!userData) {
+  //     await window.ethereum.request({ method: "eth_requestAccounts" });
+  //   }
+  // }, []);
 
   useEffect(() => {
     const arrow = gsap.timeline({
@@ -88,7 +92,6 @@ export const Main = () => {
       }
     );
 
-    // SearchBar effect
     const searchNavTrigger = ScrollTrigger.create({
       trigger: "#Popular",
       start: "top 10%",
@@ -106,7 +109,6 @@ export const Main = () => {
     };
   }, []);
 
-  // Join active
   useEffect(() => {
     const body = document.body;
 
@@ -120,20 +122,23 @@ export const Main = () => {
       body.style.overflow = "auto";
     };
   }, [isJoinActive]);
+
   return (
     <>
       <Nav
+        addClass="fixed top-0 z-30"
+        setJoin={setJoin}
         logoutWeb3={logoutWeb3}
         userData={userData}
         handleJoinButtonClick={handleJoinButtonClick}
         isSearchNavActive={isSearchNavActive}
       />
-      <section className="w-[90vw] pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
+      <section className="w-[90vw] sm:max-w-full pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
         <div className="bg-preview-main flex items-center justify-center mx-auto mt-16 p-8 sm:p-16 lg:p-32 max-w-full sm:max-w-[80%]">
           <header className="w-full h-full flex flex-col items-center gap-8 sm:gap-12 lg:gap-16 mt-16 sm:mt-16">
             <p className="w-full sm:max-w-3xl text-center text-white font-semibold text-4xl sm:text-5xl lg:text-6xl">
               Scale your professional workforce with{" "}
-              <span className="font-agbalumo">freelancer</span>
+              <span className="Agbalumo">freelancer</span>
             </p>
             <SearchBar
               iconSize={30}
@@ -152,7 +157,7 @@ export const Main = () => {
           />
         </div>
       </section>
-      <section className="ScaleCards w-full flex flex-row items-center justify-center gap-8 md:gap-8 mt-5">
+      <section className="ScaleCards w-full flex flex-row sm:grid-rows-2 items-center justify-center gap-8 md:gap-8 mt-5">
         <ScaleCards />
       </section>
       <section

@@ -10,7 +10,6 @@ export const Join = ({
   userDataError,
   initWeb3,
 }) => {
-
   const handleCloseJoinPage = () => {
     setJoin(false);
   };
@@ -49,7 +48,7 @@ export const Join = ({
           <div className="Join-right-container flex">
             <h1 className="text-3xl mx-auto mt-20">Connect to your wallet</h1>
           </div>
-          {!userAddress ? (
+          {!userData?.user?.address ? (
             <button
               onClick={initWeb3}
               className="flex flex-row mx-auto mt-20 items-center gap-1 text-white bg-[#222222] hover:bg-[#3a3a3a] px-6 py-3 rounded-xl"
