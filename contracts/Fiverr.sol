@@ -22,15 +22,17 @@ contract Fiverr {
         address creator;
         bytes company;
         bytes description;
-        uint JobTypes;
+        JobTypes jobType;
         uint price;
         uint date;
     }
+    mapping(uint => Job) private jobs;
     mapping(uint => User) private users;
     mapping(address => bool) private registered;
 
     address[] private userAddrs;
     uint private nextUserId;
+    uint private nextJobId;
 
     function register() external {
         require(registered[msg.sender] = false, "User already registered");
@@ -47,9 +49,20 @@ contract Fiverr {
     function _listJob(
         bytes memory _company,
         bytes memory _description,
-        uint _type,
+        JobTypes _type,
         uint _price
     ) internal {
-        
+        require(msg.sender != address(0), "Sender is not the correct address");
+
+        jobs[nextJobId] = Job(
+            nextJobId,
+            msg.sender,
+            _company,
+            _description,
+            _type,
+            _price,
+            block.timestamp
+        );
+        nextJobId++;
     }
 }
