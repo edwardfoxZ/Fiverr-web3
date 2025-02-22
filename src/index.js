@@ -8,6 +8,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import { Main } from "./pages/Main";
 import { FindJobs } from "./pages/FindJobs";
 import { JobDetails } from "./pages/Jobdetails";
+import { CreateJobs } from "./pages/CreateJobs";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -27,7 +28,7 @@ root.render(
           <Route path="/find-jobs/:page" element={<FindJobs />}>
             <Route path="job/:id" element={<JobDetails />} />
           </Route>
-          <Route path="/create-jobs" element={<p>create jobs</p>} />
+          <Route path="/create-jobs" element={<CreateJobs />} />
         </Routes>
       </BrowserRouter>
     </ApolloProvider>

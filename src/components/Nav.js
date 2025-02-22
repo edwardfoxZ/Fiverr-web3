@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import FiverrIcon from "../ui/icons/Public/svgviewer-png-output.png";
 import { SearchBar } from "./utils/SearchBar";
@@ -13,7 +13,7 @@ export const Nav = ({
   setJoin,
 }) => {
   const [isExploreActive, setExploreActive] = useState(false);
-  const [isPopularActive, setPopularActive] = useState(false);
+  const exploreRef = useRef(null);
 
   const Explore = [
     {
@@ -27,6 +27,20 @@ export const Nav = ({
       name: "Create Jobs",
     },
   ];
+
+  // Close the dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (exploreRef.current && !exploreRef.current.contains(event.target)) {
+        setExploreActive(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div
@@ -51,25 +65,30 @@ export const Nav = ({
           )}
         </div>
         <div className="relative flex flex-row items-center gap-10 pr-[13%]">
-          <button
-            onClick={() => setExploreActive((prev) => !prev)}
-            className="flex flex-row items-center"
-          >
-            Explore {!isExploreActive ? <IoIosArrowDown /> : <IoIosArrowUp />}
-          </button>
-          {isExploreActive && (
-            <section className="absolute flex flex-col gap-3 items-start top-9 bg-[#ffff] shadow-md p-5 rounded-xl border">
-              {Explore.map((i) => (
-                <Link
-                  className="flex flex-row hover:text-[#1dbf73]"
-                  key={i.id}
-                  to={i.to}
-                >
-                  {i.name}
-                </Link>
-              ))}
-            </section>
-          )}
+          {/* Explore Dropdown */}
+          <div ref={exploreRef} className="relative">
+            <button
+              onClick={() => setExploreActive((prev) => !prev)}
+              className="flex flex-row items-center"
+            >
+              Explore {!isExploreActive ? <IoIosArrowDown /> : <IoIosArrowUp />}
+            </button>
+            {isExploreActive && (
+              <section className="w-[5vw] absolute text-sm flex flex-col gap-3 items-start top-9 bg-[#ffff] shadow-md p-5 rounded-xl border">
+                {Explore.map((i) => (
+                  <Link
+                    key={i.id}
+                    to={i.to}
+                    className="flex flex-row hover:text-[#1dbf73]"
+                    onClick={() => setExploreActive(false)}
+                  >
+                    {i.name}
+                  </Link>
+                ))}
+              </section>
+            )}
+          </div>
+
           <Link className="flex flex-row items-center" to="/popular">
             Popular <IoIosArrowDown />
           </Link>

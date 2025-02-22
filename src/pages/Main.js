@@ -157,7 +157,7 @@ export const Main = () => {
           />
         </div>
       </section>
-      <section className="ScaleCards w-full flex flex-row sm:grid-rows-2 items-center justify-center gap-8 md:gap-8 mt-5">
+      <section className="ScaleCards w-full flex flex-row sm:grid-rows-2 max-lg:grid-cols-2 items-center justify-center gap-8 md:gap-8 mt-5">
         <ScaleCards />
       </section>
       <section
