@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { IoMdArrowBack } from "react-icons/io";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 export const CreateJobs = () => {
   const [formData, setFormData] = useState({
@@ -68,7 +69,12 @@ export const CreateJobs = () => {
   return (
     <div className="CreateJobs flex justify-center w-screen h-screen p-16">
       <div className="w-[23vw] bg-[#ebfffa] p-5 border border-gray-200 rounded-xl shadow-lg flex flex-col gap-8">
-        <h1 className="text-xl font-bold text-center">You hire!</h1>
+        <div>
+          <Link to="/">
+            <IoMdArrowBack size={23} />
+          </Link>
+          <h1 className="text-xl font-bold text-center">You hire!</h1>
+        </div>
 
         {["title", "desc", "price"].map((key) => (
           <div key={key} className="relative">
