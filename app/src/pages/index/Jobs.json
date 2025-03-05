@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Software Engineer",
+    "company": "Tech Solutions Inc.",
+    "details": "As a Software Engineer, you will be responsible for designing, developing, testing, and maintaining cutting-edge software applications. You'll collaborate with a team of developers, product managers, and designers to build scalable and efficient solutions. Your role will also involve debugging issues, optimizing code performance, and staying updated with the latest technologies in the industry. Experience with JavaScript, React, and cloud services is a plus.",
+    "time": "Full-time",
+    "price": "$80,000/year",
+    "date": "Feb 20, 2025"
+  },
+  {
+    "title": "Marketing Manager",
+    "company": "Marketing Pros LLC",
+    "details": "The Marketing Manager will oversee the planning and execution of marketing campaigns to enhance brand awareness and drive sales. Responsibilities include conducting market research, analyzing consumer behavior, and developing strategies for both digital and traditional marketing channels. You will also work closely with content creators, graphic designers, and data analysts to optimize campaign performance.",
+    "time": "Full-time",
+    "price": "$70,000/year",
+    "date": "Feb 18, 2025"
+  },
+  {
+    "title": "Graphic Designer",
+    "company": "Creative Studio",
+    "details": "As a Graphic Designer, you will create visually compelling content for digital and print media. Your primary tasks will include designing logos, branding materials, social media graphics, and promotional materials. You should be proficient in Adobe Creative Suite and have a strong understanding of design principles, typography, and color theory. The ability to interpret client needs and deliver creative solutions is essential.",
+    "time": "Part-time",
+    "price": "$25/hour",
+    "date": "Feb 15, 2025"
+  },
+  {
+    "title": "Sales Associate",
+    "company": "Retail Experts",
+    "details": "As a Sales Associate, you will be the face of the company, assisting customers with their purchasing decisions and providing excellent service. Your duties will include maintaining product knowledge, handling transactions, and meeting sales targets. Strong communication skills, a friendly attitude, and a results-driven mindset are essential for success in this role.",
+    "time": "Full-time",
+    "price": "$40,000/year",
+    "date": "Feb 12, 2025"
+  },
+  {
+    "title": "Data Analyst",
+    "company": "Data Insights Co.",
+    "details": "The Data Analyst will be responsible for collecting, processing, and analyzing large datasets to uncover trends and insights that drive business decisions. You will work with cross-functional teams to create reports, dashboards, and predictive models. Proficiency in SQL, Python, and data visualization tools such as Tableau or Power BI is preferred.",
+    "time": "Full-time",
+    "price": "$60,000/year",
+    "date": "Feb 10, 2025"
+  },
+  {
+    "title": "HR Specialist",
+    "company": "HR Solutions Ltd.",
+    "details": "As an HR Specialist, you will play a key role in managing employee relations, recruitment, and performance evaluations. Your responsibilities will include handling onboarding, addressing workplace concerns, and ensuring compliance with labor laws. Strong interpersonal skills and knowledge of HR software and best practices are required.",
+    "time": "Full-time",
+    "price": "$55,000/year",
+    "date": "Feb 8, 2025"
+  },
+  {
+    "title": "Project Manager",
+    "company": "Project Masters",
+    "details": "As a Project Manager, you will oversee projects from inception to completion, ensuring that goals are met within scope, budget, and timeline. Responsibilities include coordinating with stakeholders, managing resources, and mitigating risks. Experience with Agile methodologies and project management tools such as Jira or Trello is highly desirable.",
+    "time": "Full-time",
+    "price": "$85,000/year",
+    "date": "Feb 5, 2025"
+  },
+  {
+    "title": "Content Writer",
+    "company": "Content Creators Inc.",
+    "details": "As a Content Writer, your primary responsibility will be creating engaging and informative content for websites, blogs, social media, and marketing materials. You should have strong research skills, a passion for storytelling, and the ability to adapt writing style for different audiences and platforms.",
+    "time": "Part-time",
+    "price": "$30/hour",
+    "date": "Feb 3, 2025"
+  },
+  {
+    "title": "UX/UI Designer",
+    "company": "Design Innovators",
+    "details": "As a UX/UI Designer, you will design user-centered interfaces and experiences for web and mobile applications. Your role includes wireframing, prototyping, and user testing to ensure intuitive design. Proficiency in Figma, Sketch, and Adobe XD is required.",
+    "time": "Full-time",
+    "price": "$75,000/year",
+    "date": "Feb 1, 2025"
+  },
+  {
+    "title": "Customer Service Rep",
+    "company": "Support Services",
+    "details": "As a Customer Service Representative, you will provide support to customers through various communication channels. Your responsibilities include resolving inquiries, processing orders, and handling complaints. A customer-centric approach and strong problem-solving skills are essential.",
+    "time": "Full-time",
+    "price": "$35,000/year",
+    "date": "Jan 30, 2025"
+  }
+]

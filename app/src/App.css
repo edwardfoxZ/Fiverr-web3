@@ -1,0 +1,48 @@
+.bg-preview-main {
+  width: 100vw; /* Full width */
+  height: 550px; /* Fixed height */
+  background: url("./ui/previews/fiverr-res.cloudinary.com-....-xl-x1.jpg")
+    no-repeat center center;
+  background-size: contain;
+  overflow: hidden;
+}
+
+@media (max-width: 1920px) {
+  .bg-preview-main {
+    height: 650px;
+    background-size: contain;
+    border-radius: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bg-preview-main {
+    height: 650px;
+    background-size: contain;
+  }
+}
+
+@media (max-width: 430px) {
+  .bg-preview-main {
+    width: 100vw;
+    height: 500px;
+    border-radius: 0px;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.Join-bg-left {
+  width: 50%;
+  background: url("https://fiverr-res.cloudinary.com/npm-assets/layout-service/standard.0638957.png");
+  background-size: cover;
+}
+
+.Jobs {
+  background: rgb(23, 221, 187);
+  background: linear-gradient(
+    90deg,
+    rgba(23, 221, 187, 1) 0%,
+    rgba(0, 138, 129, 1) 100%
+  );
+}
