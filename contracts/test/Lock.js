@@ -1,126 +1,184 @@
-const {
-  time,
-  loadFixture,
-} = require("@nomicfoundation/hardhat-toolbox/network-helpers");
-const { anyValue } = require("@nomicfoundation/hardhat-chai-matchers/withArgs");
 const { expect } = require("chai");
+const { ethers } = require("hardhat");
 
-describe("Lock", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshot in every test.
-  async function deployOneYearLockFixture() {
-    const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-    const ONE_GWEI = 1_000_000_000;
+describe("Fiverr Contract", function () {
+  let Fiverr;
+  let fiverr;
+  let owner, user1, user2, jobManager;
+  let userRoleTalent, userRoleJobManager;
 
-    const lockedAmount = ONE_GWEI;
-    const unlockTime = (await time.latest()) + ONE_YEAR_IN_SECS;
+  beforeEach(async function () {
+    // Deploy the Fiverr contract before each test
+    [owner, user1, user2, jobManager] = await ethers.getSigners();
 
-    // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
+    Fiverr = await ethers.getContractFactory("Fiverr");
+    fiverr = await Fiverr.deploy();
+    await fiverr.deployed();
 
-    const Lock = await ethers.getContractFactory("Lock");
-    const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-    return { lock, unlockTime, lockedAmount, owner, otherAccount };
-  }
-
-  describe("Deployment", function () {
-    it("Should set the right unlockTime", async function () {
-      const { lock, unlockTime } = await loadFixture(deployOneYearLockFixture);
-
-      expect(await lock.unlockTime()).to.equal(unlockTime);
-    });
-
-    it("Should set the right owner", async function () {
-      const { lock, owner } = await loadFixture(deployOneYearLockFixture);
-
-      expect(await lock.owner()).to.equal(owner.address);
-    });
-
-    it("Should receive and store the funds to lock", async function () {
-      const { lock, lockedAmount } = await loadFixture(
-        deployOneYearLockFixture
-      );
-
-      expect(await ethers.provider.getBalance(lock.target)).to.equal(
-        lockedAmount
-      );
-    });
-
-    it("Should fail if the unlockTime is not in the future", async function () {
-      // We don't use the fixture here because we want a different deployment
-      const latestTime = await time.latest();
-      const Lock = await ethers.getContractFactory("Lock");
-      await expect(Lock.deploy(latestTime, { value: 1 })).to.be.revertedWith(
-        "Unlock time should be in the future"
-      );
-    });
+    userRoleTalent = 0; // TALENT
+    userRoleJobManager = 1; // JOBMANAGER
   });
 
-  describe("Withdrawals", function () {
-    describe("Validations", function () {
-      it("Should revert with the right error if called too soon", async function () {
-        const { lock } = await loadFixture(deployOneYearLockFixture);
+  it("should register a user as a talent", async function () {
+    // User1 registers as TALENT
+    await fiverr.connect(user1).register(userRoleTalent);
 
-        await expect(lock.withdraw()).to.be.revertedWith(
-          "You can't withdraw yet"
-        );
-      });
+    const user = await fiverr.users(user1.address);
+    expect(user.addr).to.equal(user1.address);
+    expect(user.role).to.equal(userRoleTalent);
+  });
 
-      it("Should revert with the right error if called from another account", async function () {
-        const { lock, unlockTime, otherAccount } = await loadFixture(
-          deployOneYearLockFixture
-        );
+  it("should register a user as a job manager", async function () {
+    // User2 registers as JOBMANAGER
+    await fiverr.connect(user2).register(userRoleJobManager);
 
-        // We can increase the time in Hardhat Network
-        await time.increaseTo(unlockTime);
+    const user = await fiverr.users(user2.address);
+    expect(user.addr).to.equal(user2.address);
+    expect(user.role).to.equal(userRoleJobManager);
+  });
 
-        // We use lock.connect() to send a transaction from another account
-        await expect(lock.connect(otherAccount).withdraw()).to.be.revertedWith(
-          "You aren't the owner"
-        );
-      });
+  it("should allow job manager to list a job", async function () {
+    // Register job manager
+    await fiverr.connect(jobManager).register(userRoleJobManager);
 
-      it("Shouldn't fail if the unlockTime has arrived and the owner calls it", async function () {
-        const { lock, unlockTime } = await loadFixture(
-          deployOneYearLockFixture
-        );
+    // Job manager lists a job
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
 
-        // Transactions are sent using the first signer by default
-        await time.increaseTo(unlockTime);
+    await fiverr
+      .connect(jobManager)
+      .listJob(company, description, jobType, price);
 
-        await expect(lock.withdraw()).not.to.be.reverted;
-      });
-    });
+    const jobs = await fiverr.getJobs();
+    expect(jobs.length).to.equal(1);
+    expect(jobs[0].creator).to.equal(jobManager.address);
+    expect(jobs[0].company).to.equal(company);
+    expect(jobs[0].description).to.equal(description);
+    expect(jobs[0].jobType).to.equal(jobType);
+    expect(jobs[0].price).to.equal(price);
+    expect(jobs[0].isOpen).to.equal(true);
+  });
 
-    describe("Events", function () {
-      it("Should emit an event on withdrawals", async function () {
-        const { lock, unlockTime, lockedAmount } = await loadFixture(
-          deployOneYearLockFixture
-        );
+  it("should not allow a talent to list a job", async function () {
+    // Register talent
+    await fiverr.connect(user1).register(userRoleTalent);
 
-        await time.increaseTo(unlockTime);
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
 
-        await expect(lock.withdraw())
-          .to.emit(lock, "Withdrawal")
-          .withArgs(lockedAmount, anyValue); // We accept any value as `when` arg
-      });
-    });
+    await expect(
+      fiverr.connect(user1).listJob(company, description, jobType, price)
+    ).to.be.revertedWith("Only Job Managers can post jobs");
+  });
 
-    describe("Transfers", function () {
-      it("Should transfer the funds to the owner", async function () {
-        const { lock, unlockTime, lockedAmount, owner } = await loadFixture(
-          deployOneYearLockFixture
-        );
+  it("should allow talent to apply for a job", async function () {
+    // Register job manager and talent
+    await fiverr.connect(jobManager).register(userRoleJobManager);
+    await fiverr.connect(user1).register(userRoleTalent);
 
-        await time.increaseTo(unlockTime);
+    // Job manager lists a job
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
 
-        await expect(lock.withdraw()).to.changeEtherBalances(
-          [owner, lock],
-          [lockedAmount, -lockedAmount]
-        );
-      });
-    });
+    await fiverr
+      .connect(jobManager)
+      .listJob(company, description, jobType, price);
+
+    // Talent applies for the job
+    const jobId = 0; // The first job in the list
+    await fiverr.connect(user1).applyForJob(jobId);
+
+    const userWorks = await fiverr.userWorks(user1.address);
+    expect(userWorks.length).to.equal(1);
+    expect(userWorks[0].user).to.equal(user1.address);
+    expect(userWorks[0].jobId).to.equal(jobId);
+  });
+
+  it("should not allow a talent to apply for the same job twice", async function () {
+    // Register job manager and talent
+    await fiverr.connect(jobManager).register(userRoleJobManager);
+    await fiverr.connect(user1).register(userRoleTalent);
+
+    // Job manager lists a job
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
+
+    await fiverr
+      .connect(jobManager)
+      .listJob(company, description, jobType, price);
+
+    // Talent applies for the job
+    const jobId = 0; // The first job in the list
+    await fiverr.connect(user1).applyForJob(jobId);
+
+    // Talent tries to apply again
+    await expect(fiverr.connect(user1).applyForJob(jobId)).to.be.revertedWith(
+      "Already applied"
+    );
+  });
+
+  it("should allow job manager to close the job", async function () {
+    // Register job manager and talent
+    await fiverr.connect(jobManager).register(userRoleJobManager);
+    await fiverr.connect(user1).register(userRoleTalent);
+
+    // Job manager lists a job
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
+
+    await fiverr
+      .connect(jobManager)
+      .listJob(company, description, jobType, price);
+
+    const jobId = 0; // The first job in the list
+    await fiverr.connect(jobManager).closeJob(jobId);
+
+    const job = await fiverr.jobs(jobId);
+    expect(job.isOpen).to.equal(false);
+  });
+
+  it("should not allow non-creators to close a job", async function () {
+    // Register job manager and talent
+    await fiverr.connect(jobManager).register(userRoleJobManager);
+    await fiverr.connect(user1).register(userRoleTalent);
+
+    // Job manager lists a job
+    const company = ethers.utils.formatBytes32String("Company XYZ");
+    const description = ethers.utils.formatBytes32String(
+      "Full-time developer role"
+    );
+    const jobType = 0; // FULLTIME
+    const price = ethers.utils.parseEther("1");
+
+    await fiverr
+      .connect(jobManager)
+      .listJob(company, description, jobType, price);
+
+    const jobId = 0; // The first job in the list
+
+    // Talent tries to close the job (should fail)
+    await expect(fiverr.connect(user1).closeJob(jobId)).to.be.revertedWith(
+      "Only creator can close the jobs"
+    );
   });
 });
