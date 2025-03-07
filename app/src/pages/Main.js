@@ -32,12 +32,6 @@ export const Main = () => {
     }
   };
 
-  // useEffect(async () => {
-  //   if (!userData) {
-  //     await window.ethereum.request({ method: "eth_requestAccounts" });
-  //   }
-  // }, []);
-
   useEffect(() => {
     const arrow = gsap.timeline({
       scrollTrigger: {
@@ -133,10 +127,10 @@ export const Main = () => {
         handleJoinButtonClick={handleJoinButtonClick}
         isSearchNavActive={isSearchNavActive}
       />
-      <section className="w-[90vw] sm:max-w-full pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
-        <div className="bg-preview-main flex items-center justify-center mx-auto mt-16 p-8 sm:p-16 lg:p-32 max-w-full sm:max-w-[80%]">
+      <section className="w-[min(90vw,90%)] sm:max-w-full pt-10 mt-16 flex flex-col mx-auto sm:flex-row items-center overflow-hidden">
+        <div className="bg-preview-main rounded-3xl aspect-square flex items-center justify-center mx-auto mt-16 p-8 sm:p-16 lg:p-32 max-w-full sm:max-w-[80%]">
           <header className="w-full h-full flex flex-col items-center gap-8 sm:gap-12 lg:gap-16 mt-16 sm:mt-16">
-            <p className="w-full sm:max-w-3xl text-center text-white font-semibold text-4xl sm:text-5xl lg:text-6xl">
+            <p className="w-full text-[clamp(2.5rem,50vw,2rem)] sm:max-w-3xl text-center text-white font-semibold">
               Scale your professional workforce with{" "}
               <span className="Agbalumo">freelancer</span>
             </p>
@@ -157,7 +151,7 @@ export const Main = () => {
           />
         </div>
       </section>
-      <section className="ScaleCards w-full flex flex-row sm:grid-rows-2 max-lg:grid-cols-2 items-center justify-center gap-8 md:gap-8 mt-5">
+      <section className="ScaleCards max-w-screen flex flex-row flex-nowrap items-center justify-center gap-8 md:gap-8 mt-5 px-10 max-sm:grid max-sm:grid-cols-2 max-lg:grid max-lg:grid-cols-3">
         <ScaleCards />
       </section>
       <section

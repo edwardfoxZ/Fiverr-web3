@@ -33,16 +33,16 @@ contract Fiverr {
         uint date;
         bool isOpen;
     }
-    mapping(uint => Job) private jobs;
-    mapping(address => User) private users;
-    mapping(address => bool) private registered;
-    mapping(address => UserWork[]) private userWorks;
-    mapping(address => bool) private isApplied;
+    mapping(uint => Job) public jobs;
+    mapping(address => User) public users;
+    mapping(address => bool) public registered;
+    mapping(address => UserWork[]) public userWorks;
+    mapping(address => bool) public isApplied;
 
-    address[] private userAddrs;
-    uint private nextUserId;
-    uint private nextJobId;
-    uint private nextJobsUserId;
+    address[] public userAddrs;
+    uint public nextUserId;
+    uint public nextJobId;
+    uint public nextJobsUserId;
 
     /// @notice Register as either a TALENT (job seeker) or JOBMANAGER (job creator)
     function register(WhoAreYou _role) external {

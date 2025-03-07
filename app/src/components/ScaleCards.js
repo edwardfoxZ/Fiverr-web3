@@ -87,12 +87,14 @@ export const ScaleCards = () => {
       {Cards.map((card) => {
         return (
           <div
-            className="w-32 h-32 bg-white border border-gray-100 shadow-lg rounded-3xl p-3 py-5 cursor-pointer hover:bg-hover-gardient-card transition-all duration-300 ease-in-out transform delay-100 hover:scale-105 hover:shadow-xl"
+            className="w-[min(8rem,80vw)] h-auto aspect-square bg-white border border-gray-100 shadow-lg flex items-start justify-start rounded-3xl p-3 py-5 cursor-pointer hover:bg-hover-gardient-card transition-all duration-300 ease-in-out transform delay-100 hover:scale-105 hover:shadow-xl"
             key={card.id}
           >
-            <div className="flex flex-col items-start gap-3">
+            <div className="w-[clamp(60%,3vw,12%)] aspect-square flex flex-col grid-rows-1 items-start gap-3">
               {card.icon}
-              <p className="text-start font-semibold">{card.title}</p>
+              <p className="text-[clamp(0.5rem,3vw,1rem)] text-start font-semibold">
+                {card.title}
+              </p>
             </div>
           </div>
         );
