@@ -20,5 +20,14 @@ describe("Deploy Contract", function () {
       const isRegistered = await fiverr.registered(acc2.address);
       expect(isRegistered).to.be.true;
     });
+
+    it("should not register a user that already regitered", async () => {
+      const fiverr = await setDeployment();
+      expect(await fiverr.connect(acc2).register(1)).to.be.revertedWith(
+        "User already registered"
+      );
+    });
+
+    it("should")
   });
 });
