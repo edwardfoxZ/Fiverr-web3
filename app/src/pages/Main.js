@@ -167,11 +167,12 @@ export const Main = () => {
         <div className="Premimum w-full h-[105vh]">
           <Premimum />
         </div>
+        <div className="bg-white w-full h-screen" />
       </section>
       {isJoinActive && (
         <div
           onClick={handleOutsideClick}
-          className="Join flex items-center bg-[#000000ad] absolute inset-0 z-30"
+          className="Join flex items-center bg-[#000000ad] fixed top-0 w-screen h-screen z-30"
         >
           <Join
             initWeb3={initWeb3}

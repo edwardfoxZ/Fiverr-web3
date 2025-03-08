@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
-
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 const Cards = [
@@ -81,19 +80,76 @@ const Cards = [
 export const PopularServices = () => {
   const sliderRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemWidthFixed = 1100; //adjusted
+  const [cardWidth, setCardWidth] = useState(0);
+  const [itemsPerSlide, setItemsPerSlide] = useState(3); // Added state for itemsPerSlide
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
-  let itemWidthDestop;
-  if (window.innerWidth >= 1920) {
-    itemWidthDestop = itemWidthFixed + 100;
-  }
-  // if(window.innerWidth >= )
+  // Resize event handler for updating card width and number of items per slide.
+  const handleResize = () => {
+    const sliderWidth = window.innerWidth;
+    let newItemsPerSlide = 3;
+
+    if (sliderWidth <= 640) {
+      newItemsPerSlide = 1; // Small phones
+    } else if (sliderWidth <= 768) {
+      newItemsPerSlide = 2; // Medium phones
+    } else if (sliderWidth <= 1024) {
+      newItemsPerSlide = 3; // Tablets and small laptops
+    } else if (sliderWidth >= 1025) {
+      newItemsPerSlide = 4; // Desktops and large screens
+    }
+
+    setItemsPerSlide(newItemsPerSlide);
+
+    // Dynamically calculate the card width based on the first card
+    const cardElement = sliderRef.current
+      ? sliderRef.current.children[0]
+      : null;
+    if (cardElement) {
+      if (sliderWidth >= 1025) {
+        setCardWidth(cardElement.offsetWidth + 500);
+      } else if (sliderWidth >= 1024) {
+        setCardWidth(cardElement.offsetWidth + 350);
+      } else {
+        setCardWidth(cardElement.offsetWidth + 450);
+      }
+    }
+  };
+
+  // Handle touch start event
+  const handleTouchStart = (e) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  // Handle touch end event
+  const handleTouchEnd = (e) => {
+    setTouchEnd(e.changedTouches[0].clientX);
+
+    // Calculate swipe direction
+    if (touchStart - touchEnd > 100) {
+      // Swipe left (next)
+      handleNext();
+    } else if (touchEnd - touchStart > 100) {
+      // Swipe right (prev)
+      handlePrev();
+    }
+  };
+
+  useEffect(() => {
+    handleResize(); // Initial call on page load
+    window.addEventListener("resize", handleResize); // Attach resize event
+    return () => window.removeEventListener("resize", handleResize); // Clean up
+  }, []);
+
+  const totalItems = Cards.length;
+  const maxIndex = Math.ceil(totalItems / itemsPerSlide) - 1;
+
+  const disabledButtonLeft = currentIndex === 0;
+  const disabledButtonRight = currentIndex === maxIndex;
 
   const slideTo = (index) => {
     const slider = sliderRef.current;
-    const maxIndex =
-      Math.floor((Cards.length * itemWidthDestop) / itemWidthDestop) - 1;
-
     if (index < 0) {
       index = 0;
     } else if (index > maxIndex) {
@@ -102,10 +158,13 @@ export const PopularServices = () => {
 
     gsap.fromTo(
       slider,
-      { x: -currentIndex * itemWidthDestop },
-      { x: -index * itemWidthDestop, duration: 0.5, ease: "power2.inOut" }
+      { x: -currentIndex * cardWidth },
+      {
+        x: -index * cardWidth,
+        duration: 0.5,
+        ease: "power2.inOut",
+      }
     );
-
     setCurrentIndex(index);
   };
 
@@ -116,60 +175,68 @@ export const PopularServices = () => {
   };
 
   const handleNext = () => {
-    if (currentIndex < Cards.length - 1) {
+    if (currentIndex < maxIndex) {
       slideTo(currentIndex + 1);
     }
   };
 
   return (
-    <>
-      <div className="flex overflow-hidden w-full">
-        <div ref={sliderRef} className="flex space-x-6">
-          {Cards.map((card) => (
-            <div
-              key={card.id}
-              className="w-48 flex-shrink-0 flex flex-col items-start p-5 rounded-lg shadow-lg text-white cursor-pointer hover:opacity-90 transition-opacity"
-              style={{ backgroundColor: card.color }}
+    <div
+      className="relative w-full overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      <div ref={sliderRef} className="w-full flex space-x-4">
+        {Cards.map((card, index) => (
+          <div
+            key={card.id}
+            className="flex-shrink-0 w-[min(12rem,70vw)] p-5 rounded-lg shadow-lg text-white cursor-pointer hover:opacity-90 transition-opacity"
+            style={{ backgroundColor: card.color }}
+          >
+            <h1 className="text-lg font-semibold text-start h-14">
+              {card.title}
+            </h1>
+            <img
+              draggable={false}
+              src={card.img}
+              alt={card.title}
+              className="max-w-full aspect-square h-auto object-cover mt-3 rounded-md"
+            />
+          </div>
+        ))}
+      </div>
+
+      {itemsPerSlide > 1 && (
+        <>
+          <div
+            className={`absolute top-1/2 transform -translate-y-1/2 left-0 ${
+              disabledButtonLeft ? "hidden" : ""
+            }`}
+          >
+            <button
+              disabled={disabledButtonLeft}
+              onClick={handlePrev}
+              className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
             >
-              <h1 className="text-lg font-semibold text-start h-14">
-                {card.title}
-              </h1>
-              <img
-                draggable={false}
-                src={card.img}
-                alt={card.title}
-                className="w-full h-32 object-cover mt-3 rounded-md"
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div
-        className={`absolute top-1/2 transform -translate-y-1/2 left-0 ${
-          currentIndex === 0 ? "hidden" : ""
-        }`}
-      >
-        <button
-          disabled={currentIndex === 0}
-          onClick={handlePrev}
-          className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
-        >
-          <IoIosArrowBack />
-        </button>
-      </div>
-      <div
-        className={`absolute top-1/2 transform -translate-y-1/2 right-0 ${
-          1 <= currentIndex ? "hidden" : ""
-        }`}
-      >
-        <button
-          disabled={1 <= currentIndex}
-          onClick={handleNext}
-          className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
-        >
-          <IoIosArrowForward />
-        </button>
-      </div>
-    </>
+              <IoIosArrowBack />
+            </button>
+          </div>
+
+          <div
+            className={`absolute top-1/2 transform -translate-y-1/2 right-0 ${
+              disabledButtonRight ? "hidden" : ""
+            }`}
+          >
+            <button
+              disabled={disabledButtonRight}
+              onClick={handleNext}
+              className="bg-gray-700 text-white px-4 py-4 rounded-full shadow-lg"
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
